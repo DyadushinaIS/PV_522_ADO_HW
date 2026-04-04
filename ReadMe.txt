@@ -2,7 +2,7 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIN0ubAtUHCDYyJY_ob19ONJ
 
 TODO:
-1. В 'Connector' добавить метод Update();
+1. В 'DBtools.Connector' добавить метод Update();
 
 DONE:
 1. Создать ветку 'HW_3';
