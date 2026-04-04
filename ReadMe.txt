@@ -2,6 +2,9 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIN0ubAtUHCDYyJY_ob19ONJ
 
 TODO:
+1. В 'Connector' добавить метод Update();
+
+DONE:
 1. Создать ветку 'HW_3';
 2. При добавлении записи в таблицу нужно проверить, не добавлялась ли эта же запись ранее;
 
