@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using System.Data.SqlClient;
 
+
 namespace DBtools
 {
 	public class Connector
 	{
 		SqlConnection connection;
-		public Connector(string connection_string)
+		public Connector (string connection_string)
 		{
 			connection = new SqlConnection(connection_string);
 			Console.WriteLine(connection.ConnectionString);
@@ -115,6 +116,34 @@ AND CONSTRAINT_TYPE = N'PRIMARY KEY'
 			}
 			if (Scalar($"SELECT {GetPrimaryKeyColumnName(table)} FROM {table} WHERE {condition} ") == null)
 				Insert($"INSERT {table}({fields}) VALUES({values})");
+		}
+
+
+		public void Update(string cmd)
+		{
+			SqlCommand command = new SqlCommand( cmd, connection);
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
+
+		public void Update(string table, string fields, string values, string condition)
+		{
+			string[] split_fields = fields.Split(',');
+			string[] split_values = values.Split(',');
+
+			if (split_fields.Length != split_values.Length) return;
+						
+			string updateString = "";
+			for (int i = 0; i < split_fields.Length; i++)
+			{
+				updateString += $"{split_fields[i]}={split_values[i]}";
+				if (i != split_fields.Length - 1)
+					updateString += ", ";
+			}
+
+			string cmd = $"UPDATE {table} SET {updateString} WHERE {condition}";
+			Update(cmd);
 		}
 	}
 }

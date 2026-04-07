@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>PV_522_ADO</RootNamespace>
     <AssemblyName>PV_522_ADO</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLQuery1-GetPrimaryKeyColumnName.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBtools\DBtools.csproj">
+      <Project>{624dccd4-131a-4205-8c43-99d2dc326551}</Project>
+      <Name>DBtools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
