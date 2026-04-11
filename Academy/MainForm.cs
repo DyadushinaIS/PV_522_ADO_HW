@@ -68,6 +68,8 @@ namespace Academy
 			tables[i].DataSource = connector.Load(queries[i].ToString());
 			//tables[i].DataSource = connector.Select("*", tabControl.SelectedTab.Text);
 			toolStripStatusLabel.Text = $"Количество записей: {tables[i].RowCount-1}";
+
+			cbStudentGroup.DataSource=connector.Load($"SELECT * FROM Groups");
 		}
 
 		private void cbGroupsDirection_SelectionChangeCommitted(object sender, EventArgs e)
@@ -96,6 +98,7 @@ namespace Academy
                 (
                 queries[0].ToString() + $" AND direction_id={cbStudentDirection.SelectedValue}"
                 );
+			cbStudentGroup.DataSource = connector.Load($"SELECT * FROM Groups WHERE direction={cbStudentDirection.SelectedValue}");
             toolStripStatusLabel.Text = $"Количество записей: {dgvStudents.RowCount - 1}";
         }
     }
