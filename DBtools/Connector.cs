@@ -4,21 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Data;
 using System.Data.SqlClient;
-
 
 namespace DBtools
 {
 	public class Connector
 	{
 		SqlConnection connection;
-		public Connector (string connection_string)
+		public Connector(string connection_string)
 		{
 			connection = new SqlConnection(connection_string);
 			Console.WriteLine(connection.ConnectionString);
 		}
-		public void Select(string cmd)
+		public DataTable Load(string cmd)
 		{
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			DataTable table = new DataTable();
+			table.Load(reader);
+			reader.Close();
+			connection.Close();
+			return table;
+		}
+		public DataTable Select(string cmd)
+		{
+			DataTable table = new DataTable();
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
 			SqlDataReader reader = command.ExecuteReader();
@@ -43,6 +55,8 @@ namespace DBtools
 			reader = command.ExecuteReader();
 			for (int i = 0; i < reader.FieldCount; i++)
 			{
+				table.Columns.Add(reader.GetName(i));
+
 				Console.Write($"{reader.GetName(i).PadRight(string_sizes[i])}");
 				//if (reader.GetName(i).ToString().Length > string_sizes[i]) string_sizes[i] = reader.GetName(i).ToString().Length + 1;
 			}
@@ -50,19 +64,25 @@ namespace DBtools
 			for (int i = 0; i < string_sizes.Sum(); i++) Console.Write("-"); Console.WriteLine();
 			while (reader.Read())
 			{
+				DataRow row = table.NewRow();
 				//Console.WriteLine($"{reader[0]}\t{reader[1]}\t{reader[2]}");
 				for (int i = 0; i < reader.FieldCount; i++)
+				{
 					Console.Write(reader[i].ToString().PadRight(string_sizes[i]));
+					row[i] = reader[i];
+				}
 				Console.WriteLine();
+				table.Rows.Add(row);
 			}
 			reader.Close();
 			connection.Close();
+			return table;
 		}
-		public void Select(string fields, string tables, string condition = "")
+		public DataTable Select(string fields, string tables, string condition = "")
 		{
 			string cmd = $"SELECT {fields} FROM {tables} ";
 			if (condition != "") cmd += $" WHERE {condition}";
-			Select(cmd);
+			return Select(cmd);
 		}
 		public object Scalar(string cmd)
 		{
@@ -117,33 +137,41 @@ AND CONSTRAINT_TYPE = N'PRIMARY KEY'
 			if (Scalar($"SELECT {GetPrimaryKeyColumnName(table)} FROM {table} WHERE {condition} ") == null)
 				Insert($"INSERT {table}({fields}) VALUES({values})");
 		}
-
-
 		public void Update(string cmd)
 		{
-			SqlCommand command = new SqlCommand( cmd, connection);
+			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
-
 		public void Update(string table, string fields, string values, string condition)
 		{
-			string[] split_fields = fields.Split(',');
-			string[] split_values = values.Split(',');
-
-			if (split_fields.Length != split_values.Length) return;
-						
-			string updateString = "";
-			for (int i = 0; i < split_fields.Length; i++)
+			string[] s_fields = fields.Split(',');
+			string[] s_values = values.Split(',');
+			if (s_fields.Length != s_values.Length) return;
+			string parsed = " ";
+			for (int i = 0; i < s_fields.Length; i++)
 			{
-				updateString += $"{split_fields[i]}={split_values[i]}";
-				if (i != split_fields.Length - 1)
-					updateString += ", ";
+				parsed += $"{s_fields[i]}={ParseValue(s_values[i])}";
+				if (i != s_values.Length - 1) parsed += ",";
 			}
-
-			string cmd = $"UPDATE {table} SET {updateString} WHERE {condition}";
-			Update(cmd);
+			string cmd = $"UPDATE {table} SET {parsed} WHERE {condition}";
+			if (Scalar($"SELECT {GetPrimaryKeyColumnName(table)} FROM {table} WHERE {parsed.Replace(",", " AND ")} ") == null)
+				Update(cmd);
+		}
+		string ParseValue(string value)
+		{
+			if (value.Length > 1)
+			{
+				value = value.Trim();	//Метод Trim() удаляет пробелы в начале и в конце строки
+				if (value[0] != 'N' && value[1] != '\'') value = $"N'{value}'";
+				/*
+				-------------------------
+				\ (Backslash) - символ отмены специального значения другого символа.
+				-------------------------
+				*/
+			}
+			return value;
 		}
 	}
 }
