@@ -15,7 +15,7 @@ namespace DLLcheck
 		{
 			Connector connector = new Connector
 				(
-				ConfigurationManager.ConnectionStrings["Movies_PV_522"].ConnectionString
+				ConfigurationManager.ConnectionStrings["Movies"].ConnectionString
 				);
 			connector.Select("*", "Directors");
 			connector.Select
