@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,12 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLQuery1-GetPrimaryKeyColumnName.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DBtools\DBtools.csproj">
-      <Project>{624dccd4-131a-4205-8c43-99d2dc326551}</Project>
-      <Name>DBtools</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

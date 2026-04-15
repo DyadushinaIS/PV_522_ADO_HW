@@ -1,6 +1,6 @@
-﻿using DBtools;
+﻿using Academy.Models;
+using DBtools;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -25,18 +25,16 @@ namespace Academy
 					"Students,Groups,Directions",
 					"[group]=group_id AND direction=direction_id"
 				),
-				
-			/*start_date,start_time,learning_days,*/
-			new Query
+				new Query
 				(
-					"group_id,group_name,    direction_name",
+					"group_id,group_name,direction_name", //group_id,group_name,start_date,start_time,learning_days,direction_name",
 					"Groups,Directions",
 					"direction=direction_id"
 				),
 				new Query("*", "Directions"),
 				new Query("*", "Disciplines"),
-				new Query("*", "Teachers")                
-            };
+				new Query("*", "Teachers")
+			};
 		public MainForm()
 		{
 			InitializeComponent();
@@ -47,20 +45,10 @@ namespace Academy
 			//dgvDirections.DataSource = connector.Select("SELECT * FROM Directions");
 			tabControl_SelectedIndexChanged(tabControl, null);
 
-			cbGroupsDirection.DataSource = connector.Load("SELECT direction_id, direction_name FROM Directions");
+			cbGroupsDirection.DataSource = connector.Load("SELECT * FROM Directions");
 			cbGroupsDirection.DisplayMember = "direction_name";
 			cbGroupsDirection.ValueMember = "direction_id";
-
-
-            cbStudentGroup.DisplayMember = "group_name";
-            cbStudentGroup.ValueMember = "group_id";
-            cbStudentGroup.DataSource = connector.Load(queries[1].ToString());
-            //SELECT group_name, group_id FROM Groups
-
-            cbStudentDirection.DisplayMember = "direction_name";
-            cbStudentDirection.ValueMember = "direction_id";
-            cbStudentDirection.DataSource = connector.Load("SELECT direction_id, direction_name FROM Directions");
-        }
+		}
 
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -68,8 +56,6 @@ namespace Academy
 			tables[i].DataSource = connector.Load(queries[i].ToString());
 			//tables[i].DataSource = connector.Select("*", tabControl.SelectedTab.Text);
 			toolStripStatusLabel.Text = $"Количество записей: {tables[i].RowCount-1}";
-
-			cbStudentGroup.DataSource=connector.Load($"SELECT * FROM Groups");
 		}
 
 		private void cbGroupsDirection_SelectionChangeCommitted(object sender, EventArgs e)
@@ -81,25 +67,27 @@ namespace Academy
 			toolStripStatusLabel.Text = $"Количество записей: {dgvGroups.RowCount - 1}";
 		}
 
-        // Для фильтрации по группе
-       
-        private void cbStudentGroup_SelectionChangeCommitted_1(object sender, EventArgs e)
-        {
-            dgvStudents.DataSource = connector.Load
-        (
-                    queries[0].ToString() + $" AND group_id={cbStudentGroup.SelectedValue}"
-        );            
-               toolStripStatusLabel.Text = $"Количество записей: {dgvStudents.RowCount - 1}";
-        }
+		private void buttonAddStudent_Click(object sender, EventArgs e)
+		{
 
-        private void cbStudentDirection_SelectionChangeCommitted_1(object sender, EventArgs e)
-        {
-            dgvStudents.DataSource = connector.Load
-                (
-                queries[0].ToString() + $" AND direction_id={cbStudentDirection.SelectedValue}"
-                );
-			cbStudentGroup.DataSource = connector.Load($"SELECT * FROM Groups WHERE direction={cbStudentDirection.SelectedValue}");
-            toolStripStatusLabel.Text = $"Количество записей: {dgvStudents.RowCount - 1}";
-        }
-    }
+			StudentForm student = new StudentForm();
+			//student.ShowDialog();
+
+			/*if (student.ShowDialog() == DialogResult.OK)
+			//{
+			//	tables[0].DataSource = connector.Load(queries[0].ToString());
+			//	//tables[i].DataSource = connector.Select("*", tabControl.SelectedTab.Text);
+			//	toolStripStatusLabel.Text = $"Количество записей: {tables[0].RowCount - 1}";
+			//	return;
+			//}
+			//if (student.ShowDialog() == DialogResult.Cancel)
+				return; */
+
+			if (student.ShowDialog() == DialogResult.OK)
+			{
+				tables[0].DataSource = connector.Load(queries[0].ToString());
+				toolStripStatusLabel.Text = $"Количество записей: {tables[0].RowCount - 1}";
+			}
+		}
+	}
 }

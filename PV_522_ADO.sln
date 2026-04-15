@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.37111.16
+# Visual Studio 15
+VisualStudioVersion = 15.0.36001.139
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PV_522_ADO", "PV_522_ADO\PV_522_ADO.csproj", "{C9DD8117-1ECA-4978-AF7C-C48FD40F8CDA}"
 EndProject

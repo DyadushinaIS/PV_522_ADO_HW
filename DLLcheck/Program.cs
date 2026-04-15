@@ -15,8 +15,14 @@ namespace DLLcheck
 		{
 			Connector connector = new Connector
 				(
-				ConfigurationManager.ConnectionStrings["Movies"].ConnectionString
+				ConfigurationManager.ConnectionStrings["Movies_PV_522"].ConnectionString
 				);
+
+			connector.Update("UPDATE Directors SET last_name=N'Tagtgren' WHERE director_id=8");
+
+			//connector.Update("Directors", "first_name,last_name", "Michael,Jackson", "director_id=9");
+			connector.Update("Directors", "first_name,last_name", "James , Cameron", "director_id=9");
+
 			connector.Select("*", "Directors");
 			connector.Select
 				(
