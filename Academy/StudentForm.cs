@@ -53,7 +53,7 @@ namespace Academy
 			if (editingStudentId == null)   //если ID пустое, то вставляем нового студента
 			{
 				student = new Models.Student(human, (int)cbStudentsGroup.SelectedValue);
-				if (student.id == 0) student.id =
+				student.id =
 				Convert.ToInt32
 				(
 	DataBase.Connector.Scalar
