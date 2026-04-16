@@ -247,6 +247,7 @@
 			this.MinimizeBox = false;
 			this.Name = "HumanForm";
 			this.Text = "HumanForm";
+			this.Load += new System.EventHandler(this.HumanForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -255,22 +256,22 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label labelLastName;
-		private System.Windows.Forms.Label labelFirstName;
-		private System.Windows.Forms.Label labelMiddleName;
-		private System.Windows.Forms.Label labelBirthDate;
-		private System.Windows.Forms.Label labelEmail;
-		private System.Windows.Forms.Label labelPhone;
-		private System.Windows.Forms.TextBox textBoxLastName;
-		private System.Windows.Forms.TextBox textBoxFirstName;
-		private System.Windows.Forms.TextBox textBoxMiddleName;
-		private System.Windows.Forms.TextBox textBoxEmail;
-		private System.Windows.Forms.TextBox textBoxPhone;
-		private System.Windows.Forms.DateTimePicker dtpBirthDate;
-		private System.Windows.Forms.PictureBox pictureBoxPhoto;
-		private System.Windows.Forms.Button buttonBrowse;
-		private System.Windows.Forms.Button buttonOK;
-		private System.Windows.Forms.Button buttonCancel;
-		private System.Windows.Forms.Label labelID;
+		protected System.Windows.Forms.Label labelLastName;
+		protected System.Windows.Forms.Label labelFirstName;
+		protected System.Windows.Forms.Label labelMiddleName;
+		protected System.Windows.Forms.Label labelBirthDate;
+		protected System.Windows.Forms.Label labelEmail;
+		protected System.Windows.Forms.Label labelPhone;
+		protected System.Windows.Forms.TextBox textBoxLastName;
+		protected System.Windows.Forms.TextBox textBoxFirstName;
+		protected System.Windows.Forms.TextBox textBoxMiddleName;
+		protected System.Windows.Forms.TextBox textBoxEmail;
+		protected System.Windows.Forms.TextBox textBoxPhone;
+		protected System.Windows.Forms.DateTimePicker dtpBirthDate;
+		protected System.Windows.Forms.PictureBox pictureBoxPhoto;
+		protected System.Windows.Forms.Button buttonBrowse;
+		protected System.Windows.Forms.Button buttonOK;
+		protected System.Windows.Forms.Button buttonCancel;
+		protected System.Windows.Forms.Label labelID;
 	}
 }

@@ -89,5 +89,33 @@ namespace Academy
 				toolStripStatusLabel.Text = $"Количество записей: {tables[0].RowCount - 1}";
 			}
 		}
+
+		private void dgvStudents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			
+		}
+
+		private void dgvStudents_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			//получаем id студента, по которому сделали двойной клик и сохраняем в переменную
+			//.Rows - встроенное свойство
+			//e.RowIndex - номер строки, по которой кликнули
+			//.Cells - тоже встроено, в скобках пишем название поля, с которым хотим поработать (строку мы уже указали свойством Row
+			//.Value - берет значение из выбранной ячейки. В нашем случае это и получается id студента, по которому сделали двойной клик
+
+			int studentId;
+			studentId = Convert.ToInt32(dgvStudents.Rows[e.RowIndex].Cells["stud_id"].Value);
+
+			// Создаём форму редактирования и передаём туда ID студента
+			StudentForm editForm = new StudentForm(studentId);
+
+			// Открываем форму и ждём, пока пользователь нажмёт ОК или Отмена
+			if (editForm.ShowDialog() == DialogResult.OK)
+			{
+				// Если нажали ОК - обновляем таблицу студентов
+				tables[0].DataSource = connector.Load(queries[0].ToString());
+				toolStripStatusLabel.Text = $"Количество записей: {tables[0].RowCount - 1}";
+			}
+		}
 	}
 }

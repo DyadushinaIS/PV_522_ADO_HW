@@ -35,5 +35,10 @@ namespace Academy
 		{
 			Compress();
 		}
+
+		private void HumanForm_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
